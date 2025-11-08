@@ -1,7 +1,7 @@
 /**
  *  app/page.js
  *  This file is responsible for displaying what 
- *  the user sees at this route (homepage).
+ *  the user sees first (essentially the 'login' route).
  */
 
 import { supabase } from '@/lib/supabaseClient'
