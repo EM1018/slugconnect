@@ -113,6 +113,7 @@ export default function LoginCard({ onSignIn, allowedDomain = 'ucsc.edu' }) {
         {/* Sign up link */}
         <p className="pt-1 text-center text-sm">
           Don&apos;t have an account?{' '}
+          {/* href="/signup will get us to the /signup route */}
           <Link href="/signup" className="font-medium text-blue-600 hover:underline">
             Sign up
           </Link>
