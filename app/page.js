@@ -5,7 +5,7 @@
  */
 
 import { supabase } from '@/lib/supabaseClient'
-
+import LoginCard from '@/components/LogInCard'
 
 /**
  * This function gets all the data from our table 'dummay data' in supabase and console logs it.
@@ -16,6 +16,10 @@ export default async function Home() {
     const { data, error } = await 
       supabase.from('dummy data').select('*')
       console.log('dummy data', data, error)
-      return <div>Supabase Connected!</div>
+      return (
+        <main className='min-h-screen grid place-items-center bg-gray-50 p-6'>
+          <LoginCard/>
+        </main>
+      )
 
 }
