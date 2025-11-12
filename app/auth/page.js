@@ -8,7 +8,7 @@
 import { supabase } from '@/lib/supabaseClient'
 
  
-export default async function Auth() {
+export default async function authPage() {
       return <div>This is the 'authentication' page</div>
 
 }

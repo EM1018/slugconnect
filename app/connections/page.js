@@ -7,7 +7,7 @@
 import { supabase } from '@/lib/supabaseClient'
 
  
-export default async function Connections() {
+export default async function connectionsPage() {
       return <div>This is the 'conections' page</div>
 
 }
