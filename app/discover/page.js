@@ -12,9 +12,14 @@ const profiles = [
  */
 
 import { supabase } from '@/lib/supabaseClient'
-
+import FilterSidebar from '@/components/FilterSideBar';
  
 export default async function discoverPage() {
-      return <div>This is the 'discover' page</div>
+      return (
+        // side bar can now be seen on /discover, although need to fix where it is put
+        <main className="min-h-screen grid place-items-center bg-slate-50 p-6">
+              <FilterSidebar />
+        </main>
+      )
 
 }
