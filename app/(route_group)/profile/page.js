@@ -13,6 +13,7 @@ export default async function profilePage() {
       /* test to show profile grid at /profile */
       return(
             <main>
+                  "dean was here"
                   <ProfileGrid/>
             </main>
       )
