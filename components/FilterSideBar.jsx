@@ -1,56 +1,63 @@
-"use client";
-import React, { useState } from "react";
+"use client"; // enables client-side interactivity
+import React from "react";
 
-export default function FilterSidebar() {
-  // Track selected filter values (can later be passed up to Discover page)
-  const [selectedMajor, setSelectedMajor] = useState(""); // default to no major selected
-  const [selectedYear, setSelectedYear] = useState(""); // default to no year selected
-  // useState allows memorization of state between renders
-
-  // Dummy data for dropdowns (from Supabase later)
+export default function FilterSidebar({ // props for managing filter state
+  selectedMajor,
+  setSelectedMajor,
+  selectedYear,
+  setSelectedYear,
+  searchQuery,
+  setSearchQuery,
+}) {
+  // dummy data, get from supabase later
   const majors = ["Computer Science", "Biology", "Psychology", "Economics"];
   const years = ["Freshman", "Sophomore", "Junior", "Senior"];
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 w-64">
-        {/* shadow-md -> drop shadow, w-64 -> fixed width */}
+      {/* Search Bar */}
+      <div className="mb-6"> {/* margin bottom for spacing */}
+        <input
+          type="text"
+          placeholder="Search by name or major..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        /> {/* full width, padding, border, rounded corners, focus styles */}
+      </div>
+
       <h2 className="text-xl font-semibold mb-4">Filters</h2>
-        {/* mb-4 -> margin bottom */}
+
 
       {/* Major Filter */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-            {/* block -> makes label take full width, font-medium -> med weight text */}
-          Major
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
         <select
-          value={selectedMajor} /* controlled component; value tied to state */
-          onChange={(e) => setSelectedMajor(e.target.value)} /* update state on change */
+          value={selectedMajor}
+          onChange={(e) => setSelectedMajor(e.target.value)} /* update selected major on change */
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        > {/* focus:ring-2 focus:ring-blue-500 -> blue outline on focus */}
-          <option value="">All Majors</option> {/* default option: no selection, so all shown */}
-          {majors.map((major) => (
-            <option key={major} value={major}> {/* unique key for each option */}
-              {major}
-            </option>
+        >
+          <option value="">All Majors</option> {/* default option */}
+          {majors.map((major) => ( // iterate over majors array
+            <option key={major} value={major}> {/* unique key and value for each option */}
+              {major} 
+            </option> 
           ))}
         </select>
       </div>
 
       {/* Year Filter */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Year
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
         <select
-          value={selectedYear} /* controlled component; value tied to state */
-          onChange={(e) => setSelectedYear(e.target.value)} /* update state on change */
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)} /* update selected year on change */
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        > {/* focus:ring-2 focus:ring-blue-500 -> blue outline on focus */}
-          <option value="">All Years</option> {/* default option: no selection, so all shown */}
-          {years.map((year) => (
-            <option key={year} value={year}> {/* unique key for each option */}
-              {year}
+        >
+          <option value="">All Years</option> {/* default option */}
+          {years.map((year) => (  // iterate over years array
+            <option key={year} value={year}> {/* unique key and value for each option */}
+              {year} 
             </option>
           ))}
         </select>
@@ -58,13 +65,13 @@ export default function FilterSidebar() {
 
       {/* Reset Button */}
       <button
-        onClick={() => {
-          setSelectedMajor(""); {/* reset major filter */}
-          setSelectedYear(""); {/* reset year filter */}
+        onClick={() => { // reset all filters
+          setSelectedMajor(""); 
+          setSelectedYear("");
+          setSearchQuery("");
         }}
         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-      > {/* hover:bg-blue-600 -> darker blue on hover */}
-        {/* transition -> smooth color change */}
+      >
         Reset Filters
       </button>
     </div>
