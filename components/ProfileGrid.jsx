@@ -1,5 +1,6 @@
 "use client"; // 
 import React from "react";
+import ProfileCard from "./ProfileCard";
 
 // labels fn as default export (allows import _ from _)
 export default function ProfileGrid({ profiles }) { // profiles is an array of profile objects
@@ -23,19 +24,12 @@ export default function ProfileGrid({ profiles }) { // profiles is an array of p
     // p-4 -> padding around the grid
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {profiles.map((profile) => ( // iterate over profiles array; renders one dive per profile
-        <div
-          key={profile.id} // unique key for each profile card (helps react identify elements)
-          className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center"
-          // bg-white rounded-xl shadow-md p-6 -> styling for each profile card
-          // flex flex-col items-center justify-center -> centers content vertically and horizontally in a column layout
-        >
-          {/* Placeholder for ProfileCard (<ProfileCard profile={profile}>)*/}
-          <div className="h-24 w-24 bg-gray-200 rounded-full mb-4" />
-          {/* simulates a grey circle for profile photo */}
-          <h2 className="text-lg font-semibold">{profile.name}</h2>
-          <p className="text-gray-500">{profile.major}</p>
-        </div>
-      ))}
+        <ProfileCard
+          key={profile.id} // unique key for each profile card
+          name={profile.name} // pass name prop
+          major={profile.major} // pass major prop
+          status={profile.status} // pass status prop
+        />))}
     </div>
   );
 }
