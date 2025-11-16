@@ -14,6 +14,7 @@ export default function DiscoverPage() {
   // STATE
   const [profiles, setProfiles] = useState([]); // state to hold profiles
   const [loading, setLoading] = useState(true); // state to indicate loading status
+  const [error, setError] = useState(null); // state to hold any errors
 
   // FILTERS
   const [selectedMajor, setSelectedMajor] = useState(""); // state for major filter
@@ -29,9 +30,10 @@ export default function DiscoverPage() {
         .select('*'); // select all columns
 
       if (error) {
-        console.error("Error fetching profiles:", error);
+        console.error("Supabase error:", error);
+        setError("Could not load profiles."); // set error state
       } else {
-        setProfiles(data); // update profiles state with fetched data
+        setProfiles(data || []); // update profiles state with fetched data
       }
       setLoading(false); // set loading to false after fetching data
     }
@@ -63,8 +65,21 @@ export default function DiscoverPage() {
         />
       </div>
 
-      <div className="flex-1 p-6">
-        <ProfileGrid profiles={filteredProfiles} /> {/* pass filtered profiles to ProfileGrid */}
+      <div className="flex-1 p-4">
+        {/* Loading UI */}
+        {loading && (
+          <div className="text-center text-gray-500 mt-8">Loading profiles...</div>
+        )}
+
+        {/* Error UI */}
+        {!loading && error && (
+          <div className="text-center text-red-500 mt-8">{error}</div>
+        )}
+
+        {/* Only show grid when not loading and no error */}
+        {!loading && !error && (
+          <ProfileGrid profiles={filteredProfiles} />
+        )}
       </div>
     </div>
   );
