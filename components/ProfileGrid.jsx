@@ -11,28 +11,37 @@ export default function ProfileGrid({ profiles }) { // profiles is an array of p
         // bg-white rounded-2xl shadow-sm -> styling for the container
         // text-gray-500 -> text color
       <div className="flex justify-center items-center h-64 bg-white rounded-2xl shadow-sm text-gray-500">
-        No other students yet. Be the first to create a profile!
+        Looks a little empty here... Try adjusting your filters or search criteria!
       </div>
     );
   }
 
   return (
-    // gird -> enables grid layout
-    // grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 -> responsive column layout
-    // (i.e., 1 column on small screens, 2 on small-medium, 3 on medium-large, 4 on large screens)
+    // grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 -> responsive grid layout
     // gap-6 -> spacing between grid items
-    // p-4 -> padding around the grid
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-      {profiles.map((profile) => ( // iterate over profiles array; renders one dive per profile
-        <ProfileCard
-          key={profile.id} // unique key for each profile card
-          name={profile.name} // pass name prop
-          major={profile.major} // pass major prop
-          // college={profile.college} // pass college prop
-          // year={profile.year} // pass year prop
-          // interests={profile.interests} // pass interests prop
-          status={profile.status} // pass status prop
-        />))}
+    // p-6 -> padding around the grid
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+      {/*missing value handling*/}
+      {profiles.map((profile) => { // iterate over profiles array; renders one dive per profile
+        const missingName = profile?.name ?? "Unknown Student"; // default name if missing
+        const missingMajor = profile?.major ?? "Undeclared"; // default major if missing PROBABLY CHANGE LATER
+        // const missingCollege = profile?.college ?? "Unknown College"; // default college if missing
+        // const missingYear = profile?.year ?? "Unknown Year"; // default year if missing
+        // const missingInterests = profile?.interests ?? ["No interests listed"]; // default interests if missing
+        const safeStatus = profile?.status ?? ""; // default status if missing
+
+        return (
+          <ProfileCard
+            key={profile.id} // unique key for each profile card
+            name={missingName} // pass name prop
+            major={missingMajor} // pass major prop
+            // college={missingCollege} // pass college prop
+            // year={missingYear} // pass year prop
+            // interests={missingInterests} // pass interests prop
+            status={safeStatus} // pass status prop
+          />
+        );
+      })}
     </div>
   );
 }
