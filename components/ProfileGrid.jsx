@@ -28,6 +28,9 @@ export default function ProfileGrid({ profiles }) { // profiles is an array of p
           key={profile.id} // unique key for each profile card
           name={profile.name} // pass name prop
           major={profile.major} // pass major prop
+          // college={profile.college} // pass college prop
+          // year={profile.year} // pass year prop
+          // interests={profile.interests} // pass interests prop
           status={profile.status} // pass status prop
         />))}
     </div>

@@ -4,25 +4,43 @@
  * 'discover' page, likely the main page of our project
  */
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import FilterSidebar from "@/components/FilterSideBar";
 import ProfileGrid from "@/components/ProfileGrid";
 import { supabase } from '@/lib/supabaseClient'
  
 export default function DiscoverPage() {
-      // dummy data, replace with supabase fetch later
-  const allProfiles = [
-    { id: 1, name: "Alice Kim", major: "Computer Science", year: "Sophomore" },
-    { id: 2, name: "Brian Lee", major: "Biology", year: "Junior" },
-    { id: 3, name: "Chloe Tran", major: "Psychology", year: "Freshman" },
-    { id: 4, name: "David Nguyen", major: "Computer Science", year: "Senior" },
-  ];
+      // supabase dummy data
+  // STATE
+  const [profiles, setProfiles] = useState([]); // state to hold profiles
+  const [loading, setLoading] = useState(true); // state to indicate loading status
 
+  // FILTERS
   const [selectedMajor, setSelectedMajor] = useState(""); // state for major filter
   const [selectedYear, setSelectedYear] = useState(""); // state for year filter
   const [searchQuery, setSearchQuery] = useState(""); // state for search query
 
-  const filteredProfiles = allProfiles.filter((p) => { // filter profiles based on selected filters and search query
+  // FETCH DATA FROM SUPABASE
+  useState(() => {
+    async function loadProfiles() {
+      setLoading(true); // set loading to true while fetching data
+      const { data, error } = await supabase
+        .from('dummy_data') // table name
+        .select('*'); // select all columns
+
+      if (error) {
+        console.error("Error fetching profiles:", error);
+      } else {
+        setProfiles(data); // update profiles state with fetched data
+      }
+      setLoading(false); // set loading to false after fetching data
+    }
+
+    loadProfiles(); // call the async function to load profiles
+  }, []); // empty dependency array ensures this runs once on component mount
+
+  // APPLY FILTERS
+  const filteredProfiles = profiles.filter((p) => { // filter profiles based on selected filters and search query
     const matchesMajor = selectedMajor ? p.major === selectedMajor : true; // if a major is selected, check for match
     const matchesYear = selectedYear ? p.year === selectedYear : true; // if a year is selected, check for match
     const matchesSearch = searchQuery 
