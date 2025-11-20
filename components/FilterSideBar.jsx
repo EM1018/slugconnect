@@ -8,10 +8,16 @@ export default function FilterSidebar({ // props for managing filter state
   setSelectedYear,
   searchQuery,
   setSearchQuery,
+  selectedInterest,
+  setSelectedInterest,
 }) {
   // dummy data, get from supabase later
   const majors = ["Computer Science", "Biology", "Psychology", "Economics"];
   const years = ["Freshman", "Sophomore", "Junior", "Senior"];
+  const interests = ["Art", "Board Games", "Camping", "Cooking", "Dancing", "Fitness",
+    "Gaming", "Gardening", "Hiking", "Linguistics", "Movies", "Music", "Photography",
+    "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
+  ];
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 w-64">
@@ -63,11 +69,29 @@ export default function FilterSidebar({ // props for managing filter state
         </select>
       </div>
 
+      {/* Interest Filter */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Interest</label>
+        <select
+          value={selectedInterest}
+          onChange={(e) => setSelectedInterest(e.target.value)} /* update selected interest on change */
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">All Interests</option> {/* default option */}
+          {interests.map((interest) => (  // iterate over interests array
+            <option key={interest} value={interest}> {/* unique key and value for each option */}
+              {interest} 
+            </option>
+          ))}
+        </select>
+      </div>
+
       {/* Reset Button */}
       <button
         onClick={() => { // reset all filters
           setSelectedMajor(""); 
           setSelectedYear("");
+          setSelectedInterest("");
           setSearchQuery("");
         }}
         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"

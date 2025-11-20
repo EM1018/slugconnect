@@ -10,7 +10,6 @@ import ProfileGrid from "@/components/ProfileGrid";
 import { supabase } from '@/lib/supabaseClient'
  
 export default function DiscoverPage() {
-      // supabase dummy data
   // STATE
   const [profiles, setProfiles] = useState([]); // state to hold profiles
   const [loading, setLoading] = useState(true); // state to indicate loading status
@@ -19,6 +18,7 @@ export default function DiscoverPage() {
   // FILTERS
   const [selectedMajor, setSelectedMajor] = useState(""); // state for major filter
   const [selectedYear, setSelectedYear] = useState(""); // state for year filter
+  const [selectedInterest, setSelectedInterest] = useState(""); // state for interest filter
   const [searchQuery, setSearchQuery] = useState(""); // state for search query
 
   // FETCH DATA FROM SUPABASE
@@ -26,7 +26,7 @@ export default function DiscoverPage() {
     async function loadProfiles() {
       setLoading(true); // set loading to true while fetching data
       const { data, error } = await supabase
-        .from('dummy_data') // table name
+        .from('dummy_data') // table name                               Supbase Dummy Data!!!!
         .select('*'); // select all columns
 
       if (error) {
@@ -45,11 +45,15 @@ export default function DiscoverPage() {
   const filteredProfiles = profiles.filter((p) => { // filter profiles based on selected filters and search query
     const matchesMajor = selectedMajor ? p.major === selectedMajor : true; // if a major is selected, check for match
     const matchesYear = selectedYear ? p.year === selectedYear : true; // if a year is selected, check for match
+    const matchesInterest = selectedInterest 
+      ? Array.isArray(p.interests) && 
+      p.interests.some((i) => i.toLowerCase() === selectedInterest.toLowerCase())
+      : true; // if an interest is selected, check for match
     const matchesSearch = searchQuery 
       ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) || // check name
         p.major.toLowerCase().includes(searchQuery.toLowerCase()) // check if name or major includes search query
       : true; // if no search query, always true
-    return matchesMajor && matchesYear && matchesSearch; // include profile only if all conditions are met
+    return matchesMajor && matchesYear && matchesInterest && matchesSearch; // include profile only if all conditions are met
   });
 
   return (
@@ -60,6 +64,8 @@ export default function DiscoverPage() {
           setSelectedMajor={setSelectedMajor} /* pass function to update selected major */
           selectedYear={selectedYear} /* pass selected year state */
           setSelectedYear={setSelectedYear} /* pass function to update selected year */
+          selectedInterest={selectedInterest} /* pass selected interest state */
+          setSelectedInterest={setSelectedInterest} /* pass function to update selected interest */
           searchQuery={searchQuery} /* pass search query state */
           setSearchQuery={setSearchQuery} /* pass function to update search query */
         />
