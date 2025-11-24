@@ -56,7 +56,6 @@ export default function DiscoverPage() {
       } else {
         setUserInterests(data.interests || []); // update user interests state
         console.log("Fetched User Interests:", data);
-        //userInterestsTest = data[0]?.interests || []; // update user interests state
       }
     }
 
