@@ -10,6 +10,9 @@ import ProfileGrid from "@/components/ProfileGrid";
 import { supabase } from '@/lib/supabaseClient'
  
 export default function DiscoverPage() {
+  //TESTING USER INTERESTS
+  const userInterests = { Interests: ["Art", "Gaming", "Hiking", "Writing"] }; // dummy user interests for testing
+
   // STATE
   const [profiles, setProfiles] = useState([]); // state to hold profiles
   const [loading, setLoading] = useState(true); // state to indicate loading status
@@ -19,6 +22,7 @@ export default function DiscoverPage() {
   const [selectedMajor, setSelectedMajor] = useState(""); // state for major filter
   const [selectedYear, setSelectedYear] = useState(""); // state for year filter
   const [selectedInterest, setSelectedInterest] = useState(""); // state for interest filter
+  const [selectedInterestCustom, setSelectedInterestCustom] = useState(""); // state for interest filter bubbles
   const [searchQuery, setSearchQuery] = useState(""); // state for search query
 
   // FETCH DATA FROM SUPABASE
@@ -49,11 +53,16 @@ export default function DiscoverPage() {
       ? Array.isArray(p.interests) && 
       p.interests.some((i) => i.toLowerCase() === selectedInterest.toLowerCase())
       : true; // if an interest is selected, check for match
+    const matchesInterestCustom = selectedInterestCustom
+      ? Array.isArray(p.interests) && 
+      p.interests.some((i) => i.toLowerCase() === selectedInterestCustom.toLowerCase()) // REPLACE
+      : true; // if an interest is selected, check for match
     const matchesSearch = searchQuery 
       ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) || // check name
         p.major.toLowerCase().includes(searchQuery.toLowerCase()) // check if name or major includes search query
       : true; // if no search query, always true
-    return matchesMajor && matchesYear && matchesInterest && matchesSearch; // include profile only if all conditions are met
+    return matchesMajor && matchesYear && matchesInterest 
+      && matchesInterestCustom && matchesSearch; // include profile only if all conditions are met
   });
 
   return (

@@ -2,6 +2,7 @@
 import React from "react";
 
 export default function FilterSidebar({ // props for managing filter state
+  userInterests = [],
   selectedMajor,
   setSelectedMajor,
   selectedYear,
@@ -18,6 +19,9 @@ export default function FilterSidebar({ // props for managing filter state
     "Gaming", "Gardening", "Hiking", "Linguistics", "Movies", "Music", "Photography",
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
   ];
+  const userDummyInterests = userInterests.length > 0 // check if userInterests has values
+    ? userInterests.Interests 
+    : ["Art", "Gaming", "Hiking", "Writing"]; // default interests if none provided (FOR TESTING)!!
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 w-64">
@@ -87,11 +91,11 @@ export default function FilterSidebar({ // props for managing filter state
       </div>
 
       {/* Filter Bubbles */}
-      <div className="mt-4">
+      <div className="mt-4 mb-6">
         <h3 className="font-semibold mb-2">Filter by interests</h3>
 
         <div className="flex flex-wrap gap-2"> {/* flex container with wrapping and gap */}
-          {interests.map((interest) => { 
+          {userDummyInterests.map((interest) => { 
             const isSelected =
               selectedInterest.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
             return (
@@ -111,7 +115,7 @@ export default function FilterSidebar({ // props for managing filter state
                 {interest}
               </button>
             );
-          })}
+          })} {/* end of interests map */}
         </div>
       </div>
 
