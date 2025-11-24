@@ -2,7 +2,7 @@
 import React from "react";
 
 export default function FilterSidebar({ // props for managing filter state
-  userInterests = [],
+  userInterests,
   selectedMajor,
   setSelectedMajor,
   selectedYear,
@@ -19,8 +19,9 @@ export default function FilterSidebar({ // props for managing filter state
     "Gaming", "Gardening", "Hiking", "Linguistics", "Movies", "Music", "Photography",
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
   ];
+  console.log("User Interests in FilterSidebar:", userInterests);
   const userDummyInterests = userInterests.length > 0 // check if userInterests has values
-    ? userInterests.Interests 
+    ? userInterests
     : ["Art", "Gaming", "Hiking", "Writing"]; // default interests if none provided (FOR TESTING)!!
 
   return (

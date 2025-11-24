@@ -4,17 +4,18 @@
  * 'discover' page, likely the main page of our project
  */
 "use client";
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import FilterSidebar from "@/components/FilterSideBar";
 import ProfileGrid from "@/components/ProfileGrid";
 import { supabase } from '@/lib/supabaseClient'
  
 export default function DiscoverPage() {
   //TESTING USER INTERESTS
-  const userInterests = { Interests: ["Art", "Gaming", "Hiking", "Writing"] }; // dummy user interests for testing
+  const userInterestsTest = { Interests: ["Art", "Gaming", "Hiking"] }; // dummy user interests for testing
 
   // STATE
   const [profiles, setProfiles] = useState([]); // state to hold profiles
+  const [userInterests, setUserInterests] = useState([]); // state to hold user interests
   const [loading, setLoading] = useState(true); // state to indicate loading status
   const [error, setError] = useState(null); // state to hold any errors
 
@@ -41,8 +42,26 @@ export default function DiscoverPage() {
       }
       setLoading(false); // set loading to false after fetching data
     }
+    
+    // Fetch user interests
+    async function fetchUserInterests() {
+      const { data, error } = await supabase
+        .from('dummy_data') // table name for user interests
+        .select('*') // select all columns
+        .eq('id', '2310a2f3-fa2d-4ba7-88ca-5e47d519b6bc') // REPLACE WITH REAL USER IDENTIFIER
+        .single(); // expect a single record
+        
+      if (error) {
+        console.error("Error fetching user interests:", error);
+      } else {
+        setUserInterests(data.interests || []); // update user interests state
+        console.log("Fetched User Interests:", data);
+        //userInterestsTest = data[0]?.interests || []; // update user interests state
+      }
+    }
 
     loadProfiles(); // call the async function to load profiles
+    fetchUserInterests(); // call the async function to fetch user interests
   }, []); // empty dependency array ensures this runs once on component mount
 
   // APPLY FILTERS
@@ -69,12 +88,19 @@ export default function DiscoverPage() {
     <div className="flex min-h-screen bg-gray-50">
       <div className="w-1/4 bg-white border-r p-4">
         <FilterSidebar
+          /*Major*/
           selectedMajor={selectedMajor} /* pass selected major state */
           setSelectedMajor={setSelectedMajor} /* pass function to update selected major */
+          /*Year*/
           selectedYear={selectedYear} /* pass selected year state */
           setSelectedYear={setSelectedYear} /* pass function to update selected year */
+          /*Interest*/
           selectedInterest={selectedInterest} /* pass selected interest state */
           setSelectedInterest={setSelectedInterest} /* pass function to update selected interest */
+          selectedInterestCustom={selectedInterestCustom} /* pass selected interest state */
+          setSelectedInterestCustom={setSelectedInterestCustom} /* pass function to update selected interest */
+          userInterests={userInterests} /* pass user interests for custom interest bubbles */
+          /*Search*/
           searchQuery={searchQuery} /* pass search query state */
           setSearchQuery={setSearchQuery} /* pass function to update search query */
         />
