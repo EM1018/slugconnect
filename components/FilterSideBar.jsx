@@ -1,6 +1,11 @@
 "use client"; // enables client-side interactivity
 import React from "react";
 
+function capitalizeFirstLetter(string) {
+  if (!string) return "";
+  return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 export default function FilterSidebar({ // props for managing filter state
   userInterests,
   selectedMajor,
@@ -22,9 +27,10 @@ export default function FilterSidebar({ // props for managing filter state
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
   ];
   console.log("User Interests in FilterSidebar:", userInterests);
-  const userDummyInterests = userInterests.length > 0 // check if userInterests has values
+  const userCustomInterests = userInterests.length > 0 // check if userInterests has values
     ? userInterests
     : ["Art", "Gaming", "Hiking", "Writing"]; // default interests if none provided (FOR TESTING)!!
+  const capitalizedUserInterests = userCustomInterests.map(interest => capitalizeFirstLetter(interest));
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 w-64">
@@ -98,7 +104,7 @@ export default function FilterSidebar({ // props for managing filter state
         <label className="blcok text-sm font-medium text-gray-700 mb-1">Your Interests</label>
 
         <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
-          {userDummyInterests.map((interest) => { 
+          {capitalizedUserInterests.map((interest) => { 
             const isSelected =
               selectedInterestCustom.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
             return (
