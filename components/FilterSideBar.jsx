@@ -93,9 +93,9 @@ export default function FilterSidebar({ // props for managing filter state
 
       {/* Filter Bubbles */}
       <div className="mt-4 mb-6">
-        <h3 className="font-semibold mb-2">Filter by interests</h3>
+        <label className="blcok text-sm font-medium text-gray-700 mb-1">Your Interests</label>
 
-        <div className="flex flex-wrap gap-2"> {/* flex container with wrapping and gap */}
+        <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
           {userDummyInterests.map((interest) => { 
             const isSelected =
               selectedInterest.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
