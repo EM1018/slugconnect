@@ -86,6 +86,35 @@ export default function FilterSidebar({ // props for managing filter state
         </select>
       </div>
 
+      {/* Filter Bubbles */}
+      <div className="mt-4">
+        <h3 className="font-semibold mb-2">Filter by interests</h3>
+
+        <div className="flex flex-wrap gap-2"> {/* flex container with wrapping and gap */}
+          {interests.map((interest) => { 
+            const isSelected =
+              selectedInterest.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
+            return (
+              <button
+                key={interest} 
+                onClick={() => 
+                  setSelectedInterest( 
+                    isSelected ? "" : interest // toggle off if clicked again
+                  )
+                }
+                // px-3 py-1 for padding, rounded-full for pill shape
+                // transition for smooth hover effect (bg-gray-100)
+                className={`px-3 py-1 rounded-full border text-sm transition 
+                  ${isSelected ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"}`}
+              >  
+                {interest}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Reset Button */}
       <button
         onClick={() => { // reset all filters
