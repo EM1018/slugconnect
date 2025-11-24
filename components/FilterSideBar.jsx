@@ -11,6 +11,8 @@ export default function FilterSidebar({ // props for managing filter state
   setSearchQuery,
   selectedInterest,
   setSelectedInterest,
+  selectedInterestCustom,
+  setSelectedInterestCustom
 }) {
   // dummy data, get from supabase later
   const majors = ["Computer Science", "Biology", "Psychology", "Economics"];
@@ -98,12 +100,12 @@ export default function FilterSidebar({ // props for managing filter state
         <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
           {userDummyInterests.map((interest) => { 
             const isSelected =
-              selectedInterest.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
+              selectedInterestCustom.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
             return (
               <button
                 key={interest} 
                 onClick={() => 
-                  setSelectedInterest( 
+                  setSelectedInterestCustom( 
                     isSelected ? "" : interest // toggle off if clicked again
                   )
                 }
@@ -126,6 +128,7 @@ export default function FilterSidebar({ // props for managing filter state
           setSelectedMajor(""); 
           setSelectedYear("");
           setSelectedInterest("");
+          setSelectedInterestCustom("");
           setSearchQuery("");
         }}
         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
