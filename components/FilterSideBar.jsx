@@ -2,6 +2,7 @@
 import React from "react";
 
 export default function FilterSidebar({ // props for managing filter state
+  userInterests,
   selectedMajor,
   setSelectedMajor,
   selectedYear,
@@ -18,6 +19,10 @@ export default function FilterSidebar({ // props for managing filter state
     "Gaming", "Gardening", "Hiking", "Linguistics", "Movies", "Music", "Photography",
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
   ];
+  console.log("User Interests in FilterSidebar:", userInterests);
+  const userDummyInterests = userInterests.length > 0 // check if userInterests has values
+    ? userInterests
+    : ["Art", "Gaming", "Hiking", "Writing"]; // default interests if none provided (FOR TESTING)!!
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 w-64">
@@ -84,6 +89,35 @@ export default function FilterSidebar({ // props for managing filter state
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Filter Bubbles */}
+      <div className="mt-4 mb-6">
+        <label className="blcok text-sm font-medium text-gray-700 mb-1">Your Interests</label>
+
+        <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
+          {userDummyInterests.map((interest) => { 
+            const isSelected =
+              selectedInterest.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
+            return (
+              <button
+                key={interest} 
+                onClick={() => 
+                  setSelectedInterest( 
+                    isSelected ? "" : interest // toggle off if clicked again
+                  )
+                }
+                // px-3 py-1 for padding, rounded-full for pill shape
+                // transition for smooth hover effect (bg-gray-100)
+                className={`px-3 py-1 rounded-full border text-sm transition 
+                  ${isSelected ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"}`}
+              >  
+                {interest}
+              </button>
+            );
+          })} {/* end of interests map */}
+        </div>
       </div>
 
       {/* Reset Button */}
