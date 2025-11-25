@@ -4,7 +4,7 @@
  * 'discover' page, likely the main page of our project
  */
 "use client";
-import React, { use, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import FilterSidebar from "@/components/FilterSideBar";
 import ProfileGrid from "@/components/ProfileGrid";
 import { supabase } from '@/lib/supabaseClient'
@@ -26,13 +26,90 @@ export default function DiscoverPage() {
   const [selectedInterestCustom, setSelectedInterestCustom] = useState(""); // state for interest filter bubbles
   const [searchQuery, setSearchQuery] = useState(""); // state for search query
 
+  // UCSC Undergraduate Majors (B.A. and B.S.) from official catalog
+  // Source: https://catalog.ucsc.edu/en/current/general-catalog/academic-programs/fields-of-study-chart
+  const ALL_MAJORS = [
+    'Agroecology',
+    'Ancient Studies',
+    'Anthropology',
+    'Applied Linguistics and Multilingualism',
+    'Applied Mathematics',
+    'Applied Physics',
+    'Art',
+    'Art and Design: Games and Playable Media',
+    'Biochemistry and Molecular Biology',
+    'Biology',
+    'Biomolecular Engineering and Bioinformatics',
+    'Biotechnology',
+    'Business Management Economics',
+    'Chemistry',
+    'Classical Studies',
+    'Cognitive Science',
+    'Computer Engineering',
+    'Computer Science',
+    'Computer Science: Computer Game Design',
+    'Critical Race and Ethnic Studies',
+    'Earth Sciences',
+    'Ecology and Evolutionary Biology',
+    'Economics',
+    'Education, Democracy and Justice',
+    'Electrical Engineering',
+    'Environmental Studies',
+    'Feminist Studies',
+    'Film and Digital Media',
+    'Global and Community Health',
+    'History',
+    'History of Art and Visual Culture',
+    'Human Biology',
+    'Italian Studies',
+    'Japanese Studies',
+    'Jewish Studies',
+    'Language Studies',
+    'Latin American and Latino Studies',
+    'Legal Studies',
+    'Linguistics',
+    'Literature',
+    'Marine Biology',
+    'Mathematics',
+    'Molecular, Cell and Developmental Biology',
+    'Music',
+    'Neuroscience',
+    'Philosophy',
+    'Physics',
+    'Physics (Astrophysics)',
+    'Politics',
+    'Psychology',
+    'Robotics Engineering',
+    'Science Education',
+    'Sociology',
+    'Spanish Studies',
+    'Statistics',
+    'Technology and Information Management',
+    'Theater Arts',
+  ]
+
+  const ALL_YEARS = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate']
+
   // FETCH DATA FROM SUPABASE
-  useState(() => {
+  useEffect(() => {
     async function loadProfiles() {
       setLoading(true); // set loading to true while fetching data
+      
+      // Get current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError || !user) {
+        console.error("Error getting user:", userError);
+        setError("Please sign in to view profiles.");
+        setLoading(false);
+        return;
+      }
+
+      // Load all profiles (excluding current user)
       const { data, error } = await supabase
-        .from('dummy_data') // table name                               Supbase Dummy Data!!!!
-        .select('*'); // select all columns
+        .from('dummy_data') // table name
+        .select('*') // select all columns
+        .neq('id', user.id); // exclude current user
 
       if (error) {
         console.error("Supabase error:", error);
@@ -45,16 +122,24 @@ export default function DiscoverPage() {
     
     // Fetch user interests
     async function fetchUserInterests() {
+      // Get current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError || !user) {
+        console.error("Error getting user:", userError);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('dummy_data') // table name for user interests
         .select('*') // select all columns
-        .eq('id', '2310a2f3-fa2d-4ba7-88ca-5e47d519b6bc') // REPLACE WITH REAL USER IDENTIFIER
+        .eq('id', user.id) // use authenticated user's ID
         .single(); // expect a single record
         
       if (error) {
         console.error("Error fetching user interests:", error);
       } else {
-        setUserInterests(data.interests || []); // update user interests state
+        setUserInterests(data?.interests || []); // update user interests state
         console.log("Fetched User Interests:", data);
       }
     }
@@ -90,9 +175,11 @@ export default function DiscoverPage() {
           /*Major*/
           selectedMajor={selectedMajor} /* pass selected major state */
           setSelectedMajor={setSelectedMajor} /* pass function to update selected major */
+          majors={ALL_MAJORS} /* pass all UCSC majors */
           /*Year*/
           selectedYear={selectedYear} /* pass selected year state */
           setSelectedYear={setSelectedYear} /* pass function to update selected year */
+          years={ALL_YEARS} /* pass all year options */
           /*Interest*/
           selectedInterest={selectedInterest} /* pass selected interest state */
           setSelectedInterest={setSelectedInterest} /* pass function to update selected interest */

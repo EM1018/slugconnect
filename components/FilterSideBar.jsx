@@ -10,8 +10,10 @@ export default function FilterSidebar({ // props for managing filter state
   userInterests,
   selectedMajor,
   setSelectedMajor,
+  majors = [], // all available majors, defaults to empty array
   selectedYear,
   setSelectedYear,
+  years = [], // all available years, defaults to empty array
   searchQuery,
   setSearchQuery,
   selectedInterest,
@@ -19,9 +21,6 @@ export default function FilterSidebar({ // props for managing filter state
   selectedInterestCustom,
   setSelectedInterestCustom
 }) {
-  // dummy data, get from supabase later
-  const majors = ["Computer Science", "Biology", "Psychology", "Economics"];
-  const years = ["Freshman", "Sophomore", "Junior", "Senior"];
   const interests = ["Art", "Board Games", "Camping", "Cooking", "Dancing", "Fitness",
     "Gaming", "Gardening", "Hiking", "Linguistics", "Movies", "Music", "Photography",
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"

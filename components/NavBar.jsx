@@ -5,8 +5,11 @@
  */
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { signOut } from '@/lib/authService'
 
 const links = [
   { href: '/discover', label: 'Discover' },
@@ -16,6 +19,21 @@ const links = [
 
 export default function NavBar() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [signingOut, setSigningOut] = useState(false)
+
+  async function handleSignOut() {
+    setSigningOut(true)
+    try {
+      await signOut()
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      console.error('Sign out error:', error)
+    } finally {
+      setSigningOut(false)
+    }
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white">
@@ -43,6 +61,15 @@ export default function NavBar() {
               </Link>
             )
           })}
+          
+          {/* Sign Out button */}
+          <button
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="text-sm text-slate-600 transition-colors hover:text-red-600 disabled:opacity-50"
+          >
+            {signingOut ? 'Signing out...' : 'Sign Out'}
+          </button>
         </nav>
       </div>
     </header>
