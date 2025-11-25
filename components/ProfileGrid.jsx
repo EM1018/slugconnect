@@ -33,11 +33,12 @@ export default function ProfileGrid({ profiles }) { // profiles is an array of p
         return (
           <ProfileCard
             key={profile.id} // unique key for each profile card
+            id={profile.id} // pass user ID for connection requests
             name={missingName} // pass name prop
             major={missingMajor} // pass major prop
-            // college={missingCollege} // pass college prop
-            // year={missingYear} // pass year prop
-            // interests={missingInterests} // pass interests prop
+            year={profile?.year} // pass year prop
+            college={profile?.college} // pass college prop
+            interests={profile?.interests} // pass interests prop
             status={safeStatus} // pass status prop
           />
         );
