@@ -158,7 +158,7 @@ export default function DiscoverPage() {
       : true; // if an interest is selected, check for match
     const matchesInterestCustom = selectedInterestCustom
       ? Array.isArray(p.interests) && 
-      p.interests.some((i) => i.toLowerCase() === selectedInterestCustom.toLowerCase()) // REPLACE
+      p.interests.some((i) => i.toLowerCase() === selectedInterestCustom.toLowerCase())
       : true; // if an interest is selected, check for match
     const matchesSearch = searchQuery 
       ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) || // check name

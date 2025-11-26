@@ -26,7 +26,8 @@ export default function FilterSidebar({ // props for managing filter state
     "Reading", "Sports", "Technology", "Travel", "Writing", "Yoga"
   ];
   console.log("User Interests in FilterSidebar:", userInterests);
-  const userCustomInterests = userInterests.length > 0 // check if userInterests has values
+  // Safely handle userInterests - check if it exists and is an array
+  const userCustomInterests = (Array.isArray(userInterests) && userInterests.length > 0)
     ? userInterests
     : ["Art", "Gaming", "Hiking", "Writing"]; // default interests if none provided (FOR TESTING)!!
   const capitalizedUserInterests = userCustomInterests.map(interest => capitalizeFirstLetter(interest));
