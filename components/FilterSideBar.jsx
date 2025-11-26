@@ -103,12 +103,12 @@ export default function FilterSidebar({ // props for managing filter state
         <label className="blcok text-sm font-medium text-gray-700 mb-1">Your Interests</label>
 
         <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
-          {capitalizedUserInterests.map((interest) => { 
+          {capitalizedUserInterests.map((interest, index) => { 
             const isSelected =
               selectedInterestCustom.toLowerCase() === interest.toLowerCase(); // check if this interest is selected (case insensitive)
             return (
               <button
-                key={interest} 
+                key={`user-interest-${index}-${interest}`} 
                 onClick={() => 
                   setSelectedInterestCustom( 
                     isSelected ? "" : interest // toggle off if clicked again
