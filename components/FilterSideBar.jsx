@@ -101,8 +101,8 @@ export default function FilterSidebar({ // props for managing filter state
 
       {/* Filter Bubbles */}
       <div className="mt-4 mb-6">
-        <label className="blcok text-sm font-medium text-gray-700 mb-1">Your Interests</label>
-
+        <label className="block text-sm font-medium text-gray-700 mb-1">Your Interests</label>
+ 
         <div className="flex flex-wrap gap-2 mt-1"> {/* flex container with wrapping and gap */}
           {capitalizedUserInterests.map((interest, index) => { 
             const isSelected =
